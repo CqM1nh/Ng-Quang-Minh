@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vẽ Hình học 3D Tương tác & Tính Toán</title>
+    <link rel="stylesheet" href="visual.css">
+</head>
+<body>
+    <div id="container"></div>
+    <div id="controls">
+        <h2>Thao tác Cơ bản & Cài đặt</h2>
+        <div class="input-group">
+            <label for="axis-selector">Chọn Trục Chiều cao (Hướng lên):</label>
+            <select id="axis-selector">
+                <option value="Y">----Y----</option>
+                <option value="Z">----Z----</option>
+                <option value="X">----X----</option>
+            </select>
+        </div>
+        
+        <h3>Nhập Tọa độ Điểm (Hàng loạt)</h3>
+        <div class="input-group">
+            <label for="batch_coords">Nhập dữ liệu (Mỗi dòng: Tên X Y Z):</label>
+            <textarea id="batch_coords" rows="5" placeholder="Ví dụ:&#10;A 2 3 -1&#10;B 0 5 0&#10;C 1 1 1"></textarea>
+            <button id="addBatchPoints">Thêm Nhiều Điểm</button>
+        </div>
+
+        <h3>Thao tác Hình học 3D</h3>
+        <button id="connectPoints">Nối Điểm Đã Chọn (Đa giác)</button>
+        <button id="deleteLines">Xóa Đường Nối Đã Chọn</button>
+        <button id="deleteSelected">Xóa Điểm Đã Chọn</button>
+        <button id="clearScene">Xóa Tất Cả</button>
+
+        <h3>Danh sách Điểm (Click để chọn)</h3>
+        <div id="pointsList"></div>
+
+        <hr>
+        
+        <h2>Công cụ Tam giác</h2>
+        <button id="calculateTriangleProps">Tính Diện tích & Chiều cao</button>
+        
+        <div class="triangle-controls">
+            <p>Thêm Chân Đường cao (phải chọn 3 điểm):</p>
+            <button id="addAltitudeA" class="altitude-btn">Thêm H_A</button>
+            <button id="addAltitudeB" class="altitude-btn">Thêm H_B</button>
+            <button id="addAltitudeC" class="altitude-btn">Thêm H_C</button>
+        </div>
+
+        <div id="triangleResults" class="results-box">
+            <p>Chọn 3 điểm và nhấn nút "Tính" ở trên.</p>
+        </div>
+
+        <hr>
+
+        <h2>Công cụ Mặt phẳng</h2>
+        <button id="calculatePlaneProps">Tính Phương trình Mặt phẳng</button>
+        <div id="planeResults" class="results-box">
+            <p>Chọn 3 điểm và nhấn nút để tìm mặt phẳng.</p>
+        </div>
+
+        <hr>
+        
+        <h2>Công cụ Vector</h2>
+
+        <h3>Vector & Khoảng cách (Dùng 2 điểm đã chọn)</h3>
+        <button id="calculateVectorDistance">Tính vector AB và </button>
+        <div id="vectorDistanceResults" class="results-box">
+            <p>Chọn 2 điểm và nhấn nút.</p>
+        </div>
+
+        <hr>
+
+        <h3>Góc và Tích vô hướng (Chọn 2 Vector)</h3>
+        <div class="input-group">
+            <label>Vector (Điểm Đầu - Cuối):</label>
+            <div class="vector-selector">
+                <select id="u_start_select" class="point-select"></select>
+                <select id="u_end_select" class="point-select"></select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>Vector (Điểm Đầu - Cuối):</label>
+            <div class="vector-selector">
+                <select id="v_start_select" class="point-select"></select>
+                <select id="v_end_select" class="point-select"></select>
+            </div>
+        </div>
+        <button id="calculateVectorDotAngle">Tính vector & Góc</button>
+        <div id="vectorDotAngleResults" class="results-box">
+            <p>Chọn 4 điểm để xác định 2 vector.</p>
+        </div>
+
+        <hr>
+
+        <h3>Vector Hợp lực</h3>
+        <p>Chọn các vector lực từ danh sách:</p>
+        <div id="force_vectors_select_container">
+            <div class="input-group force-vector-group">
+                <label>Lực 1:</label>
+                <select class="force-start-select point-select"></select>
+                <select class="force-end-select point-select"></select>
+                <button class="remove-vector-btn"></button>
+            </div>
+        </div>
+        <button id="addVectorToForceList">Thêm Vector Lực</button>
+        <button id="calculateResultantVector">Tính Hợp lực</button>
+        
+        <div id="resultantVectorResults" class="results-box">
+            <p>Chọn các vector lực từ danh sách và nhấn nút.</p>
+        </div>
+        
+        <hr>
+
+        <h2>Khối Hình học Cơ bản</h2>
+        <p>Tạo nhanh hình 3D:</p>
+        <div class="input-group">
+            <label for="base_side_length">Cạnh đáy/Chiều dài:</label>
+            <input type="number" id="base_side_length" value="4" min="0.5" step="0.5" style="width: 45%; margin-right: 5%;">
+
+            <label for="height_value">Chiều cao/Chiều rộng:</label>
+            <input type="number" id="height_value" value="3" min="0.5" step="0.5" style="width: 45%;">
+        </div>
+        
+        <div class="quick-draw-controls">
+            <button id="drawTetrahedron">Tứ Diện</button>
+            <button id="drawCube">Lập Phương</button>
+            <button id="drawCuboid">Hộp Chữ Nhật</button>
+            <button id="drawPyramid">Chóp Tứ Giác</button>
+            <button id="drawRegPyramid">Chóp Tứ Giác Đều</button>
+        </div>
+        
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
+    
+    <script src="main.js"></script>
+</body>
+</html>
